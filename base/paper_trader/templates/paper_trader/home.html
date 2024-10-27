@@ -1,0 +1,78 @@
+{% extends 'paper_trader/main.html' %}
+
+
+{% block content %}
+    <div class="container">
+      
+        {% include 'paper_trader/navi.html' %}
+        
+        <div class="content">
+            <div class="stock-search">
+                <input type="text" id="stockSymbol" placeholder="Search...">
+                <button onclick="fetchStock()">Search</button>
+                <h2 id="stockName">{{pstock.symbol}} {{name}} ${{price}}</h2>
+                <div class="chart">
+                    <canvas id="stockChart"></canvas>
+                </div>
+                <div class="buy-sell-buttons">
+                    <a href="{% url 'buy' %}?symbol=" id="buyLink" class="buy">Buy</a>
+                    <a href="{% url 'buy' %}?symbol=" id="buyLink" class="buy">Sell</a>
+                </div>
+            </div>
+            
+            <div class="portfolio">
+                <h2>Portfolio</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Stock</th>
+                            <th>Quantity</th>
+                            <th>Value</th>
+                            <th>Buy/Sell</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for item in mystocks %}
+                        <tr>
+                            <td>{{item.symbol}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.total}}</td>     
+                            <td><a href="{% url 'update' item.id %}" >buy/sell</a></td>
+                        </tr>
+                       {% endfor %}
+                       <tr>
+                        <td>Cash</td>
+                        <td></td>
+                        <td>{{ mycasha }}</td>     
+                        
+                    </tr>
+
+                    </tbody>
+                </table>
+                <div class="trade-info">
+                    <p><strong>{{pstock.symbol}}</strong> You have {{pstock.quantity}} shares at {{price}} per share.</p>
+                   
+                    <form method="POST" class="form-inline">
+                        {% csrf_token %}
+                        
+                        <!-- Quantity Input -->
+                        <div class="form-group mb-2">
+                            {{ form.quantity.label_tag }}
+                            {{ form.quantity }}
+                        </div>
+            
+                        <!-- Action Dropdown (Buy/Sell) -->
+                        <div class="form-group mx-sm-3 mb-2">
+                            {{ form.action }}
+                        </div>
+            
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-success mb-2">OK</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

@@ -1,0 +1,98 @@
+# Django
+*.log
+*.pot
+*.pyc
+*.pyo
+__pycache__/
+*.sqlite3
+
+# Django migrations
+*/migrations/*.py
+*/migrations/*.pyc
+
+# Environment variables
+.env
+*.env
+
+# Local environment files
+*.local
+
+# Database
+db.sqlite3
+*.db
+
+# Media
+/media
+/staticfiles
+/static
+
+# Virtual environments
+venv/
+env/
+venv.bak/
+venv.bak/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Mac system files
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Cache
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.tox/
+.coverage
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+.cache/
+
+# Documentation
+docs/_build/
+
+# Unit test / coverage reports
+htmlcov/
+coverage/
+*.cover
+.cache
+
+# Pyre type checker
+.pyre/
+
+# MyPy type checker
+.mypy_cache/
+.dmypy.json
+dmypy.json

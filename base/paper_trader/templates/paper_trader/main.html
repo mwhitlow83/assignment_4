@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Trader</title>
+   
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 10px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+    }
+    
+    .user-info {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .user-info a {
+        text-decoration: none;
+        color: blue;
+    }
+    
+    .content {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    
+    .stock-search {
+        flex: 1;
+        margin-right: 20px;
+    }
+    
+    .stock-search input[type="text"] {
+        width: calc(100% - 80px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    .stock-search button {
+        padding: 10px;
+        border: none;
+        color: white;
+        background-color: #333;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    
+    .chart {
+        height: 300px;
+        margin-bottom: 20px;
+    }
+    
+    .buy-sell-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .buy, .sell {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    
+    .buy {
+        background-color: blue;
+    }
+    
+    .sell {
+        background-color: red;
+    }
+    
+    .portfolio {
+        flex: 1;
+        max-width: 400px;
+    }
+    
+    .portfolio table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    
+    .portfolio table, th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+    }
+    
+    .trade-info {
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+    }
+    
+    .trade-info input[type="text"], .trade-info select {
+        padding: 5px;
+        margin-right: 10px;
+    }
+    
+    .ok {
+        padding: 5px 10px;
+        background-color: green;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    
+
+</style>
+
+
+</head>
+<body>
+
+    
+    {% block content %}
+
+
+    {% endblock %}
+
+
+    <script>
+        const ctx = document.getElementById('stockChart').getContext('2d');
+        let stockChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Stock Price',
+                    data: [],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        display: true
+                    },
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+
+
+            
+                function fetchStock() {
+                    const symbol = document.getElementById('stockSymbol').value;
+                    document.getElementById('buyLink').href = `{% url 'buy' %}?symbol=${symbol}`;
+                    fetch(`/fetch_stock_data/?symbol=${symbol}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('stockName').innerText = `${data.symbol} - ${data.name} - $${data.price}`;
+                            stockChart.data.labels = data.dates;
+                            stockChart.data.datasets[0].data = data.data;
+                            stockChart.update();
+                        });
+                }
+    </script>
+</body>
+</html>
+   
